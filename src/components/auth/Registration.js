@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class Registration extends Component {
   constructor(props) {
@@ -15,15 +16,34 @@ class Registration extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSubmit(event) {
-    console.log("Form Submitted");
-    event.preventDefault();
-  }
-
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  }
+
+  handleSubmit(event) {
+    const { email, password, password_confirmation } = this.state;
+
+    axios
+      .post(
+        "http://localhost:3001/registrations",
+        {
+          user: {
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation,
+          },
+        },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log("registration res", response);
+      })
+      .catch((error) => {
+        console.log("Registration_error", error);
+      });
+    event.preventDefault();
   }
 
   render() {
