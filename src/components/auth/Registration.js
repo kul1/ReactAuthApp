@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 
 class Registration extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: '',
-      password: '',
-      password_confirmation: '',
-      registrationErrors: '',
+      email: "",
+      password: "",
+      password_confirmation: "",
+      registrationErrors: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,7 +27,7 @@ class Registration extends Component {
 
     axios
       .post(
-        'http://localhost:3001/registrations',
+        "http://localhost:3001/registrations",
         {
           user: {
             email: email,
@@ -35,15 +35,15 @@ class Registration extends Component {
             password_confirmation: password_confirmation,
           },
         },
-        { withCredentials: true },
+        { withCredentials: true }
       )
-      .then(response => {
-        if (response.data.status === 'created') {
+      .then((response) => {
+        if (response.data.status === "created") {
           this.props.handleSuccessfulAuth(response.data);
         }
       })
-      .catch(error => {
-        console.log('Registration_error', error);
+      .catch((error) => {
+        console.log("Regisxtration_error", error);
       });
     event.preventDefault();
   }

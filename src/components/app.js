@@ -1,16 +1,25 @@
-import React, { Component } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import axios from "axios";
-import Home from "./Home.js";
-import Dashboard from "./Dashboard.js";
+import React, { Component } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import axios from 'axios';
+import Home from './Home.js';
+import Dashboard from './Dashboard.js';
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: 'NOT_LOGGED_IN',
       user: {},
     };
+
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin(data) {
+    this.setState({
+      loggedInStatus: 'LOGGED_IN',
+      user: data.user,
+    });
   }
   render() {
     return (
@@ -19,15 +28,19 @@ export default class App extends Component {
           <Switch>
             <Route
               exact
-              path={"/"}
-              render={(props) => (
-                <Home {...props} loggedInStatus={this.state.loggedInStatus} />
+              path={'/'}
+              render={props => (
+                <Home
+                  {...props}
+                  handleLogin={this.handleLogin}
+                  loggedInStatus={this.state.loggedInStatus}
+                />
               )}
             />
             <Route
               exact
-              path={"/dashboard"}
-              render={(props) => (
+              path={'/dashboard'}
+              render={props => (
                 <Dashboard
                   {...props}
                   loggedInStatus={this.state.loggedInStatus}
