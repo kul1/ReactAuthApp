@@ -11,7 +11,7 @@ export default class App extends Component {
 
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN",
-      user: {}
+      user: {},
     };
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -20,15 +20,17 @@ export default class App extends Component {
 
   checkLoginStatus() {
     axios
-      .get("http://localhost:3001/logged_in", { withCredentials: true })
-      .then(response => {
+      .get("http://localhost:3001/auth/identity/callback", {
+        withCredentials: true,
+      })
+      .then((response) => {
         if (
           response.data.logged_in &&
           this.state.loggedInStatus === "NOT_LOGGED_IN"
         ) {
           this.setState({
             loggedInStatus: "LOGGED_IN",
-            user: response.data.user
+            user: response.data.user,
           });
         } else if (
           !response.data.logged_in &
@@ -36,11 +38,11 @@ export default class App extends Component {
         ) {
           this.setState({
             loggedInStatus: "NOT_LOGGED_IN",
-            user: {}
+            user: {},
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("check login error", error);
       });
   }
@@ -52,14 +54,14 @@ export default class App extends Component {
   handleLogout() {
     this.setState({
       loggedInStatus: "NOT_LOGGED_IN",
-      user: {}
+      user: {},
     });
   }
 
   handleLogin(data) {
     this.setState({
       loggedInStatus: "LOGGED_IN",
-      user: data.user
+      user: data.user,
     });
   }
 
@@ -71,7 +73,7 @@ export default class App extends Component {
             <Route
               exact
               path={"/"}
-              render={props => (
+              render={(props) => (
                 <Home
                   {...props}
                   handleLogin={this.handleLogin}
@@ -83,7 +85,7 @@ export default class App extends Component {
             <Route
               exact
               path={"/dashboard"}
-              render={props => (
+              render={(props) => (
                 <Dashboard
                   {...props}
                   loggedInStatus={this.state.loggedInStatus}

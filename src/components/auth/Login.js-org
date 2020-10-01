@@ -6,10 +6,10 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      auth_key: "",
+      code: "",
+      email: "",
       password: "",
       loginErrors: "",
-      provider: "identity",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,16 +23,15 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
-    const { auth_key, password } = this.state;
+    const { email, password } = this.state;
 
     axios
       .post(
         "http://localhost:3001/auth/identity/callback",
         {
           user: {
-            auth_key: auth_key,
+            email: email,
             password: password,
-            provider: provider,
           },
         },
         { withCredentials: true }
@@ -53,10 +52,10 @@ export default class Login extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <input
-            type="auth_key"
-            name="auth_key"
-            placeholder="User Name"
-            value={this.state.code}
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={this.state.email}
             onChange={this.handleChange}
             required
           />
@@ -70,14 +69,6 @@ export default class Login extends Component {
             required
           />
 
-          <input
-            type="provider"
-            name="provider"
-            placeholder="Provider"
-            value={this.state.provider}
-            onChange={this.handleChange}
-            required
-          />
           <button type="submit">Login</button>
         </form>
       </div>
